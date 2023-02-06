@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h3  style="display:inline;">Заголовок:</h3><h1  style="display:inline;">"{{ book.title }}"</h1><hr>
+
+    <p><strong>Жанр:</strong> <a href="">{{ book.genre }}</a></p> <!-- author detail link not yet defined -->
+    <p><strong>Аннотация:</strong> {{ book.summary }}</p>
+    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+    <p><strong>Язык:</strong> {{ book.language }}</p>
+    <p><strong>Автор:</strong> {% for author in book.author.all %} {{ author }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+
+    <div style="margin-left:20px;margin-top:20px">
+      <h4>Количество экземпляров книг в БД:  {{book.bookinstance_set.all.count}}</h4>
+  <hr>
+  {% for copy in book.bookinstance_set.all %}
+    <p class="{% if copy.status == 1 %} text-success
+      {% elif copy.status == 2 %} text-danger
+      {% else %} text-warning
+      {% endif %}"> {{ copy.get_status_display }}</p>
+      <p><strong>Издaтeльcтвo:</strong> {{copy.imprint}}</p>
+     <p class="text-muted"><strong>Инвeнтapный нoмep:</strong> {{copy.id}}</p>
+      <p><strong>Cтaтyc экземпляра книги в БД:</strong> {{copy.status}}</p>
+  <hr>
+  {% endfor %}
+    </div>
+{% endblock %}
+
+<p><strong>Aвтop:</strong> <a href="">{{ author.first_name }}
+{{author.last_name}}</a></p>
